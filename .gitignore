@@ -1,4 +1,7 @@
-*.pdb
-*.obj
 *.idb
+*.pch
+*.obj
+*.log
 *.exe
+.vs
+
