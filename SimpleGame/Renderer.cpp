@@ -164,7 +164,9 @@ void Renderer::DrawSolidRect(float x, float y, float z, float size, float r, flo
 
 	GetGLPosition(x, y, &newX, &newY);
 
+	
 	//Program select
+	
 	glUseProgram(m_SolidRectShader);
 
 	glUniform4f(glGetUniformLocation(m_SolidRectShader, "u_Trans"), newX, newY, 0, size);

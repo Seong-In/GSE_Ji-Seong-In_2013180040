@@ -14,9 +14,13 @@ but WITHOUT ANY WARRANTY.
 #include "Dependencies\freeglut.h"
 #include "Renderer.h"
 #include "GameObject.h"
+#include "ScenceMng.h"
+#include <time.h>
+
 
 Renderer *g_Renderer = NULL;
-GameObject obj(0, 0, 0, 20, 1, 0, 1, 1);
+GameObject obj(30, 0, 0, 20, 1, 0, 1, 1);
+ScenceMng *g_Sceenmng = NULL;
 
 
 void RenderScene(void)
@@ -25,22 +29,22 @@ void RenderScene(void)
 	glClearColor(0.0f, 0.3f, 0.3f, 1.0f);
 
 	// Renderer Test
-
+	
 	//g_Renderer->DrawSolidRect(30, 0, 0, 10, 1, 0, 0, 1);
 	g_Renderer->DrawSolidRect(obj.PosX(), obj.PosY(), obj.PosZ(), obj.PosSize(), obj.PosR(), obj.PosG(), obj.PosB(), obj.PosA());
-
+	
 	glutSwapBuffers();
 }
 
 void Idle(void)
 {
-	obj.Update();
+	obj.Update(100);
 	RenderScene();
 }
 
 void MouseInput(int button, int state, int x, int y)
 {
-
+	
 	RenderScene();
 }
 
@@ -61,7 +65,7 @@ int main(int argc, char **argv)
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
 	glutInitWindowSize(500, 500);
-
+	
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
@@ -76,7 +80,7 @@ int main(int argc, char **argv)
 
 	// Initialize Renderer
 	g_Renderer = new Renderer(500, 500);
-
+	
 	if (!g_Renderer->IsInitialized())
 	{
 		std::cout << "Renderer could not be initialized.. \n";
@@ -88,11 +92,12 @@ int main(int argc, char **argv)
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
 
+	
 	glutMainLoop();
 
 	delete g_Renderer;
 	//delete obj;
 
-	return 0;
+    return 0;
 }
 

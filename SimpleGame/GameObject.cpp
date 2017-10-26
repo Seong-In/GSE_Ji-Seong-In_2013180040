@@ -1,9 +1,12 @@
 #include "stdafx.h"
 #include "GameObject.h"
-
-bool check;
+#include <time.h>
+#include <stdlib.h>
+#define MAXCOUNT 20
+bool check=true;
 GameObject::GameObject(float x, float y, float z, float size, float r, float g, float b, float a)
 {
+	
 	dx = x;
 	dy = y;
 	dz = z;
@@ -65,23 +68,26 @@ void GameObject::MouseZ(float z)
 	dx = z;
 }
 
-void GameObject::Update()
+void GameObject::Update(float elapseTime)
 {
-	if (check == true)
+	
+	float elapseTimeInSecond = elapseTime / 1000.f;
+	if (dx<500)
 	{
-		dx += 0.1f;
+		dx =dx+ x_dir*elapseTimeInSecond;
+		
 	}
-	if (dx >= 240)
-	{
+	if(dx>=240)
+	{ 
 		check = false;
 	}
 	if (check == false)
 	{
-		dx -= 0.1f;
-	}
+		dx -= elapseTimeInSecond;
+		
 	if (dx <= -240)
 	{
 		check = true;
 	}
-
+	
 }
