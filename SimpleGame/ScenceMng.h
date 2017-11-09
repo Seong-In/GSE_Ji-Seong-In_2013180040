@@ -28,9 +28,11 @@ private:
 	void DoCollisionTest();
 	GameObject *m_actorObjects[MAX_OBJECT_COUNT];
 	GameObject *m_bulletObjects[MAX_OBJECT_COUNT];
+	GameObject *m_ArrowObjects[MAX_OBJECT_COUNT];
 
 	Renderer *m_renderer;
 
+	int m_texbulding = m_renderer->CreatePngTexture("./Resorce/bullding.png");
 	int m_windowWidth;
 	int m_windowHeight;
 };

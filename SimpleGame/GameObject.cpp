@@ -62,7 +62,7 @@ void GameObject::Update(float elapsedTime)
 
 	if (m_lifeTime > 0.f)
 	{
-		//m_lifeTime -= elapsedTimeInSecond;
+		m_lifeTime -= elapsedTimeInSecond;
 	}
 	
 }

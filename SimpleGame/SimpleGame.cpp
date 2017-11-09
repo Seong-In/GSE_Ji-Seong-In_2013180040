@@ -53,6 +53,7 @@ void MouseInput(int button, int state, int x, int y)
 	{
 		for (int i = 0; i < 1; i++) {
 			g_ScenceMng->AddActorObject(x - 250, -y + 250, Object_Player);
+			g_ScenceMng->AddActorObject(x - 250, -y + 250, Object_Arrow);
 		}
 
 	}

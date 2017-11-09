@@ -44,8 +44,25 @@ void ScenceMng::DrawAllObjects()
 			);
 		}
 	}
-	m_renderer->DrawSolidRect(0, 0, 0, 50, 1, 1, 0, 1);
-
+	
+	m_renderer->DrawTexturedRect(0, 0, 0, 50, 1, 1, 0, 1,m_texbulding);
+	for (int i = 0; i < MAX_OBJECT_COUNT; i++)
+	{
+		if (m_ArrowObjects[i] != NULL)
+		{
+			// Renderer Test
+			m_renderer->DrawSolidRect(
+				m_ArrowObjects[i]->m_x+10,
+				m_ArrowObjects[i]->m_y,
+				0,
+				m_ArrowObjects[i]->m_size-5,
+				m_ArrowObjects[i]->m_color[0]-1,
+				m_ArrowObjects[i]->m_color[1],
+				m_ArrowObjects[i]->m_color[2]-1,
+				m_ArrowObjects[i]->m_color[3]
+			);
+		}
+	}
 }
 
 ScenceMng::~ScenceMng()
@@ -70,6 +87,17 @@ int ScenceMng::AddActorObject(float x, float y, float type)
 	{
 		m_actorObjects[0] = new GameObject(0,0);
 		//m_renderer->DrawSolidRect(0, 0, 0, 50, 1, 1, 0, 1);
+	}
+	if (type == Object_Arrow)
+	{
+		for (int i = 0; i < MAX_OBJECT_COUNT; i++)
+		{
+			if (m_ArrowObjects[i] == NULL)
+			{
+				m_ArrowObjects[i] = new GameObject(x, y);
+				return i;
+			}
+		}
 	}
 
 
@@ -98,11 +126,12 @@ void ScenceMng::UpdateAllActorObjects(float elapsedTime)
 		if (m_actorObjects[i] != NULL)
 		{
 			m_actorObjects[i]->Update(elapsedTime);
-
+			m_ArrowObjects[i]->Update(elapsedTime);
 		}
 		if (m_bulletObjects[i] != NULL)
 		{
 			m_bulletObjects[i]->Update(elapsedTime);
+			m_ArrowObjects[i]->Update(elapsedTime);
 		}
 	}
 }
@@ -140,6 +169,12 @@ void ScenceMng::DoCollisionTest()
 					float minX1, minY1;
 					float maxX1, maxY1;
 
+					float Arrow_minX, Arrow_minY;
+					float Arrow_maxX, Arrow_maxY;
+
+					float Arrow_minX1, Arrow_minY1;
+					float Arrow_maxX1, Arrow_maxY1;
+
 					minX = m_actorObjects[i]->m_x - m_actorObjects[i]->m_size / 2.f;
 					minY = m_actorObjects[i]->m_y - m_actorObjects[i]->m_size / 2.f;
 					maxX = m_actorObjects[i]->m_x + m_actorObjects[i]->m_size / 2.f;
@@ -148,6 +183,16 @@ void ScenceMng::DoCollisionTest()
 					minY1 = m_actorObjects[j]->m_y - m_actorObjects[j]->m_size / 2.f;
 					maxX1 = m_actorObjects[j]->m_x + m_actorObjects[j]->m_size / 2.f;
 					maxY1 = m_actorObjects[j]->m_y + m_actorObjects[j]->m_size / 2.f;
+
+					/*Arrow_minX = m_ArrowObjects[i]->m_x - m_ArrowObjects[i]->m_size / 2.f;
+					Arrow_minY = m_ArrowObjects[i]->m_y - m_ArrowObjects[i]->m_size / 2.f;
+					Arrow_maxX = m_ArrowObjects[i]->m_x + m_ArrowObjects[i]->m_size / 2.f;
+					Arrow_maxY = m_ArrowObjects[i]->m_y + m_ArrowObjects[i]->m_size / 2.f;
+					Arrow_minX1 = m_ArrowObjects[j]->m_x - m_ArrowObjects[j]->m_size / 2.f;
+					Arrow_minY1 = m_ArrowObjects[j]->m_y - m_ArrowObjects[j]->m_size / 2.f;
+					Arrow_maxX1 = m_ArrowObjects[j]->m_x + m_ArrowObjects[j]->m_size / 2.f;
+					Arrow_maxY1 = m_ArrowObjects[j]->m_y + m_ArrowObjects[j]->m_size / 2.f;*/
+
 					//플레이어간의 충돌
 					/*if (BoxBoxCollisionTest(minX, minY, maxX, maxY, minX1, minY1, maxX1, maxY1))
 					{
@@ -166,6 +211,8 @@ void ScenceMng::DoCollisionTest()
 				
 				delete m_actorObjects[i];
 				m_actorObjects[i] = NULL;
+				delete m_ArrowObjects[i];
+				m_ArrowObjects[i] = NULL;
 				/*m_actorObjects[i]->m_color[0] = 1;
 				m_actorObjects[i]->m_color[1] = 0;
 				m_actorObjects[i]->m_color[2] = 0;
