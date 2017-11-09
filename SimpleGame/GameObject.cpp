@@ -1,93 +1,78 @@
 #include "stdafx.h"
 #include "GameObject.h"
-#include <time.h>
-#include <stdlib.h>
-#define MAXCOUNT 20
-bool check=true;
-GameObject::GameObject(float x, float y, float z, float size, float r, float g, float b, float a)
+#include <math.h>
+#include <iostream>
+using namespace std;
+
+
+GameObject::GameObject(float x, float y)
 {
-	
-	dx = x;
-	dy = y;
-	dz = z;
-	obj_size = size;
-	obj_r = r;
-	obj_g = g;
-	obj_b = b;
-	obj_a = a;
+	m_x = x;
+	m_y = y;
+	m_vX = 200.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+	m_vY = 200.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+
+	m_size = 10;
+	m_color[0] = 1;
+	m_color[1] = 1;
+	m_color[2] = 1;
+	m_color[3] = 1;
+
+	m_life = 100.f;
+	m_lifeTime = 100000.f;
 }
 
 
 GameObject::~GameObject()
 {
+
 }
 
-float GameObject::PosX()
+void GameObject::Update(float elapsedTime)
 {
-	return dx;
-}
-float GameObject::PosY()
-{
-	return dy;
-}
-float GameObject::PosZ()
-{
-	return dz;
-}
-float GameObject::PosSize()
-{
-	return obj_size;
-}
-float GameObject::PosR()
-{
-	return obj_r;
-}
-float GameObject::PosG()
-{
-	return obj_g;
-}
-float GameObject::PosB()
-{
-	return obj_b;
-}
-float GameObject::PosA()
-{
-	return obj_a;
-}
+	float elapsedTimeInSecond = elapsedTime / 1000.f;
 
-void GameObject::MouseX(float x)
-{
-	dx = x;
-}
-void GameObject::MouseY(float y)
-{
-	dx = y;
-}
-void GameObject::MouseZ(float z)
-{
-	dx = z;
-}
+	m_x = m_x + m_vX * elapsedTimeInSecond;
+	m_y = m_y + m_vY * elapsedTimeInSecond;
 
-void GameObject::Update(float elapseTime)
-{
-	
-	float elapseTimeInSecond = elapseTime / 1000.f;
-	if (dx<500)
+	if (m_x > 250)
 	{
-		dx =dx+ x_dir*elapseTimeInSecond;
-		
+		m_vX = -m_vX;
 	}
-	if(dx>=240)
-	{ 
-		check = false;
+
+	if (m_x < -250)
+	{
+		m_vX = -m_vX;
 	}
-	if (check == false)
+
+	if (m_y > 250)
 	{
-		dx -= elapseTimeInSecond;
-		
-	if (dx <= -240)
+		m_vY = -m_vY;
+	}
+
+	if (m_y < -250)
 	{
-		check = true;
+		m_vY = -m_vY;
+	}
+
+	if (m_life > 0.f)
+	{
+		m_life -= 0.01f;
+	}
+
+	if (m_lifeTime > 0.f)
+	{
+		//m_lifeTime -= elapsedTimeInSecond;
 	}
 	
+}
+
+float GameObject::GetLife()
+{
+	return m_life;
+}
+
+float GameObject::GetLifeTime()
+{
+	return m_lifeTime;
 }
