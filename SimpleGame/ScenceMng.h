@@ -10,6 +10,7 @@
 #define Object_Bulding 2
 #define Object_Bullet 3
 #define Object_Arrow 4
+
 class ScenceMng
 {
 public:
@@ -29,6 +30,7 @@ private:
 	GameObject *m_actorObjects[MAX_OBJECT_COUNT];
 	GameObject *m_bulletObjects[MAX_OBJECT_COUNT];
 	GameObject *m_ArrowObjects[MAX_OBJECT_COUNT];
+	
 
 	Renderer *m_renderer;
 

@@ -20,6 +20,7 @@ ScenceMng::ScenceMng(int width, int height)
 	{
 		m_actorObjects[i] = NULL;
 		m_bulletObjects[i] = NULL;
+		
 	}
 }
 //오브젝트 그리기
@@ -45,7 +46,12 @@ void ScenceMng::DrawAllObjects()
 		}
 	}
 	
-	m_renderer->DrawTexturedRect(0, 0, 0, 50, 1, 1, 0, 1,m_texbulding);
+	
+	m_renderer->DrawTexturedRect(0, 0, 0, 50, 1, 1, 0, 1, m_texbulding);
+	
+	
+	
+	//에로우
 	for (int i = 0; i < MAX_OBJECT_COUNT; i++)
 	{
 		if (m_ArrowObjects[i] != NULL)
@@ -82,11 +88,6 @@ int ScenceMng::AddActorObject(float x, float y, float type)
 				return i;
 			}
 		}
-	}
-	else if (type == Object_Bulding)
-	{
-		m_actorObjects[0] = new GameObject(0,0);
-		//m_renderer->DrawSolidRect(0, 0, 0, 50, 1, 1, 0, 1);
 	}
 	if (type == Object_Arrow)
 	{
@@ -134,6 +135,7 @@ void ScenceMng::UpdateAllActorObjects(float elapsedTime)
 			m_ArrowObjects[i]->Update(elapsedTime);
 		}
 	}
+
 }
 
 GameObject* ScenceMng::GetActorObject(int index)
@@ -150,6 +152,7 @@ int ScenceMng::GetMaxObjectCount()
 void ScenceMng::DoCollisionTest()
 {
 	int collisionCount = 0;
+	
 
 	for (int i = 0; i < MAX_OBJECT_COUNT; i++)
 	{
@@ -174,6 +177,7 @@ void ScenceMng::DoCollisionTest()
 
 					float Arrow_minX1, Arrow_minY1;
 					float Arrow_maxX1, Arrow_maxY1;
+					
 
 					minX = m_actorObjects[i]->m_x - m_actorObjects[i]->m_size / 2.f;
 					minY = m_actorObjects[i]->m_y - m_actorObjects[i]->m_size / 2.f;
@@ -184,14 +188,14 @@ void ScenceMng::DoCollisionTest()
 					maxX1 = m_actorObjects[j]->m_x + m_actorObjects[j]->m_size / 2.f;
 					maxY1 = m_actorObjects[j]->m_y + m_actorObjects[j]->m_size / 2.f;
 
-					/*Arrow_minX = m_ArrowObjects[i]->m_x - m_ArrowObjects[i]->m_size / 2.f;
+					Arrow_minX = m_ArrowObjects[i]->m_x - m_ArrowObjects[i]->m_size / 2.f;
 					Arrow_minY = m_ArrowObjects[i]->m_y - m_ArrowObjects[i]->m_size / 2.f;
 					Arrow_maxX = m_ArrowObjects[i]->m_x + m_ArrowObjects[i]->m_size / 2.f;
 					Arrow_maxY = m_ArrowObjects[i]->m_y + m_ArrowObjects[i]->m_size / 2.f;
 					Arrow_minX1 = m_ArrowObjects[j]->m_x - m_ArrowObjects[j]->m_size / 2.f;
 					Arrow_minY1 = m_ArrowObjects[j]->m_y - m_ArrowObjects[j]->m_size / 2.f;
 					Arrow_maxX1 = m_ArrowObjects[j]->m_x + m_ArrowObjects[j]->m_size / 2.f;
-					Arrow_maxY1 = m_ArrowObjects[j]->m_y + m_ArrowObjects[j]->m_size / 2.f;*/
+					Arrow_maxY1 = m_ArrowObjects[j]->m_y + m_ArrowObjects[j]->m_size / 2.f;
 
 					//플레이어간의 충돌
 					/*if (BoxBoxCollisionTest(minX, minY, maxX, maxY, minX1, minY1, maxX1, maxY1))
@@ -203,8 +207,15 @@ void ScenceMng::DoCollisionTest()
 					{
 						collisionCount++;
 					}
+					if (BoxBoxCollisionTest(Arrow_minX, Arrow_minY, Arrow_maxX, Arrow_maxY, -25, -25, 25, 25))
+					{
+						collisionCount++;
+						
+					}
 				}
 			}
+			
+			
 			//충돌되면 사라짐
 			if (collisionCount > 0)
 			{

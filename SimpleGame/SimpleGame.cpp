@@ -51,10 +51,10 @@ void MouseInput(int button, int state, int x, int y)
 
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
-		for (int i = 0; i < 1; i++) {
-			g_ScenceMng->AddActorObject(x - 250, -y + 250, Object_Player);
-			g_ScenceMng->AddActorObject(x - 250, -y + 250, Object_Arrow);
-		}
+
+		g_ScenceMng->AddActorObject(x - 250, -y + 250, Object_Player);
+		g_ScenceMng->AddActorObject(x - 250, -y + 250, Object_Arrow);
+
 
 	}
 
@@ -85,6 +85,11 @@ void SpecialKeyInput(int key, int x, int y)
 	RenderScene();
 }
 
+
+void timer()
+{
+
+}
 int main(int argc, char **argv)
 {
 	// Initialize GL things
