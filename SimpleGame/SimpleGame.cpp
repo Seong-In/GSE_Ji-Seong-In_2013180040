@@ -27,15 +27,15 @@ bool g_LButtonDown = false;
 void RenderScene(void)
 {
 	//glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
-	glClearColor(0.0f, 0.0f, 0.0f, 1.0f);
+	glClearColor(1.0f, 0.0f, 0.0f, 1.0f);
 
 	DWORD currTime = timeGetTime();
 	DWORD elapsedTime = currTime - g_prevTime;
 	g_prevTime = currTime;
 
-	g_ScenceMng->UpdateAllActorObjects((float)elapsedTime);
-	g_ScenceMng->DrawAllObjects();
-	
+	g_ScenceMng->UpdateAllActorGameObjects((float)elapsedTime);
+	g_ScenceMng->DrawAllGameObjects();
+
 	glutSwapBuffers();
 }
 
@@ -44,18 +44,26 @@ void Idle(void)
 	RenderScene();
 }
 
-
+//button
+//GLUT_LEFT_BUTTON, GLUT_MIDDLE_BUTTON, GLUT_RIGHT_BUTTON
+//state
+//GLUT_UP, GLUT_DOWN
 void MouseInput(int button, int state, int x, int y)
 {
-	
-
 	if (button == GLUT_LEFT_BUTTON && state == GLUT_DOWN)
 	{
+		g_LButtonDown = true;
+	}
 
-		g_ScenceMng->AddActorObject(x - 250, -y + 250, Object_Player);
-		g_ScenceMng->AddActorObject(x - 250, -y + 250, Object_Arrow);
-
-
+	if (button == GLUT_LEFT_BUTTON && state == GLUT_UP)
+	{
+		if (g_LButtonDown)
+		{
+			//clicked
+			for (int i = 0; i < 1; i++)
+				g_ScenceMng->AddActorGameObject(x - 250, -y + 400, GameObject_CHARACTER);
+		}
+		g_LButtonDown = false;
 	}
 
 	RenderScene();
@@ -63,13 +71,12 @@ void MouseInput(int button, int state, int x, int y)
 
 void MotionInput(int x, int y)
 {
-	//마우스 드래그
 	if (g_LButtonDown)
 	{
 		//clicked
-		for (int i = 0; i < 100; i++)
+		for (int i = 0; i < 1; i++)
 		{
-			//g_ScenceMng->AddActorObject(x - 250, -y + 250);
+			//g_ScenceMng->AddActorGameObject(x - 250, -y + 250, GameObject_CHARACTER);
 		}
 	}
 	RenderScene();
@@ -85,18 +92,13 @@ void SpecialKeyInput(int key, int x, int y)
 	RenderScene();
 }
 
-
-void timer()
-{
-
-}
 int main(int argc, char **argv)
 {
 	// Initialize GL things
 	glutInit(&argc, argv);
 	glutInitDisplayMode(GLUT_DEPTH | GLUT_DOUBLE | GLUT_RGBA);
 	glutInitWindowPosition(0, 0);
-	glutInitWindowSize(500, 500);
+	glutInitWindowSize(500, 800);
 	glutCreateWindow("Game Software Engineering KPU");
 
 	glewInit();
@@ -116,21 +118,17 @@ int main(int argc, char **argv)
 	glutMouseFunc(MouseInput);
 	glutSpecialFunc(SpecialKeyInput);
 
-	g_ScenceMng = new ScenceMng(500, 500);
-	/*for (int i = 0; i < MAX_OBJECT_COUNT; i++)
-	{
-		float x = 250.f * 2.f * ((float)std::rand() / (float)RAND_MAX - 0.5f);
-		float y = 250.f * 2.f * ((float)std::rand() / (float)RAND_MAX - 0.5f);
+	g_ScenceMng = new ScenceMng(500, 800);
+	g_ScenceMng->AddActorGameObject(-150, -300, GameObject_BUILDING_RED);
+	g_ScenceMng->AddActorGameObject(0, -300, GameObject_BUILDING_RED);
+	g_ScenceMng->AddActorGameObject(150, -300, GameObject_BUILDING_RED);
 
-		g_ScenceMng->AddActorObject(x, y);
-	}*/
-	
 	g_prevTime = timeGetTime();
 
 	glutMainLoop();
 
 	delete g_ScenceMng;
-	
+
 	return 0;
 }
 

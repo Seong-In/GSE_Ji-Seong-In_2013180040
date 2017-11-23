@@ -5,37 +5,39 @@
 #include "Renderer.h"
 #include "GameObject.h"
 
-#define MAX_OBJECT_COUNT 20
-#define Object_Player 1
-#define Object_Bulding 2
-#define Object_Bullet 3
-#define Object_Arrow 4
+#define MAX_GameObject_COUNT 1000
 
+#define GameObject_CHARACTER 0
+#define GameObject_BUILDING_RED 1
+#define GameObject_BULLET 2
+#define GameObject_ARROW 3
+#define GameObject_BUILDING_BLUE 4
 class ScenceMng
 {
 public:
 	ScenceMng(int width, int height);
 	~ScenceMng();
 
-	int AddActorObject(float x, float y,float type);
-	void DeleteActorObject(int index);
-	void UpdateAllActorObjects(float elapsedTime);
-	GameObject* GetActorObject(int index);
-	int GetMaxObjectCount();
-	void DrawAllObjects();
+	int AddActorGameObject(float x, float y, int type);
+	void DeleteActorGameObject(int index);
+	void UpdateAllActorGameObjects(float elapsedTime);
+	GameObject* GetActorGameObject(int index);
+	int GetMaxGameObjectCount();
+	void DrawAllGameObjects();
 
 private:
 	bool BoxBoxCollisionTest(float minX, float minY, float maxX, float maxY, float minX1, float minY1, float maxX1, float maxY1);
 	void DoCollisionTest();
-	GameObject *m_actorObjects[MAX_OBJECT_COUNT];
-	GameObject *m_bulletObjects[MAX_OBJECT_COUNT];
-	GameObject *m_ArrowObjects[MAX_OBJECT_COUNT];
-	
+	GameObject *m_actorGameObjects[MAX_GameObject_COUNT];
+	GameObject *m_bulletGameObjects[MAX_GameObject_COUNT];
 
 	Renderer *m_renderer;
 
-	int m_texbulding = m_renderer->CreatePngTexture("./Resorce/bullding.png");
 	int m_windowWidth;
 	int m_windowHeight;
+
+	GLuint m_texCharacter = 0;
+	GLuint m_texBuilding = 0;
+	GLuint m_texBuilding_blue = 0;
 };
 
