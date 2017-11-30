@@ -24,7 +24,7 @@ public:
 
 	float m_life;
 	float m_lifeTime;
-
+	float lev;
 	int m_type;
 
 	float m_lastBullet;

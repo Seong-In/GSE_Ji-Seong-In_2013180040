@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ScenceMng.h"
-
+#include <iostream>
+using namespace std;
 ScenceMng::ScenceMng(int width, int height)
 {
 	// Initialize Renderer
@@ -30,8 +31,7 @@ int g_temp = 0;
 
 void ScenceMng::DrawAllGameObjects()
 {
-	m_renderer->DrawSolidRect(0, 0, 0, m_windowHeight, 0, 0, 0, 0.4);
-
+		
 	for (int i = 0; i < MAX_GameObject_COUNT; i++)
 	{
 		if (m_actorGameObjects[i] != NULL)
@@ -48,8 +48,14 @@ void ScenceMng::DrawAllGameObjects()
 					m_actorGameObjects[i]->m_color[1],
 					m_actorGameObjects[i]->m_color[2],
 					m_actorGameObjects[i]->m_color[3],
-					m_texBuilding
+					m_texBuilding,
+					m_actorGameObjects[i]->lev
 				);
+				m_renderer->DrawSolidRectGauge(
+					m_actorGameObjects[i]->m_x,
+					m_actorGameObjects[i]->m_y,
+					0, 10, 2, 0, 0, 1, 1, 1, 0.5);
+				
 			}
 			
 			
@@ -77,8 +83,10 @@ void ScenceMng::DrawAllGameObjects()
 					m_actorGameObjects[i]->m_color[0],
 					m_actorGameObjects[i]->m_color[1],
 					m_actorGameObjects[i]->m_color[2],
-					m_actorGameObjects[i]->m_color[3]
+					m_actorGameObjects[i]->m_color[3],
+					m_actorGameObjects[i]->lev
 				);
+				
 			}
 			m_renderer->DrawTexturedRect(-150, 300, 0,
 				m_actorGameObjects[i]->m_size,
@@ -86,7 +94,7 @@ void ScenceMng::DrawAllGameObjects()
 				m_actorGameObjects[i]->m_color[1],
 				m_actorGameObjects[i]->m_color[2],
 				m_actorGameObjects[i]->m_color[3],
-				m_texBuilding_blue
+				m_texBuilding_blue,0
 			);
 			m_renderer->DrawTexturedRect(0, 300, 0,
 				m_actorGameObjects[i]->m_size,
@@ -94,7 +102,7 @@ void ScenceMng::DrawAllGameObjects()
 				m_actorGameObjects[i]->m_color[1],
 				m_actorGameObjects[i]->m_color[2],
 				m_actorGameObjects[i]->m_color[3],
-				m_texBuilding_blue
+				m_texBuilding_blue,0
 			);
 			m_renderer->DrawTexturedRect(150, 300, 0,
 				m_actorGameObjects[i]->m_size,
@@ -102,7 +110,7 @@ void ScenceMng::DrawAllGameObjects()
 				m_actorGameObjects[i]->m_color[1],
 				m_actorGameObjects[i]->m_color[2],
 				m_actorGameObjects[i]->m_color[3],
-				m_texBuilding_blue
+				m_texBuilding_blue,0
 			);
 		}
 	}
@@ -170,7 +178,7 @@ void ScenceMng::UpdateAllActorGameObjects(float elapsedTime)
 				if (m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED)
 				{
 					//fire bullet
-					if (m_actorGameObjects[i]->m_lastBullet > 0.5f)
+					if (m_actorGameObjects[i]->m_lastBullet > 3)
 					{
 						int bulletID = AddActorGameObject(
 							m_actorGameObjects[i]->m_x,

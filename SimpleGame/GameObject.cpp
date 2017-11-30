@@ -25,7 +25,7 @@ GameObject::GameObject(float x, float y, int type)
 
 		m_vX = 0;
 		m_vY = 0;
-
+		lev = 0.1f;
 		m_size = 80;
 		m_life = 500;
 
@@ -42,7 +42,7 @@ GameObject::GameObject(float x, float y, int type)
 
 		m_vX = 300.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		m_vY = 300.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-
+		lev = 0.2f;
 		m_size = 20;
 		m_life = 10;
 
@@ -57,7 +57,7 @@ GameObject::GameObject(float x, float y, int type)
 
 		m_vX = 600.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		m_vY = 600.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
-
+		lev = 0.3f;
 		m_size = 2;
 		m_life = 20;
 
@@ -69,7 +69,7 @@ GameObject::GameObject(float x, float y, int type)
 		m_color[1] = 1;
 		m_color[2] = 0;
 		m_color[3] = 1;
-
+		lev = 0.3f;
 		m_vX = 100.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		m_vY = 100.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 
@@ -102,22 +102,33 @@ void GameObject::Update(float elapsedTime)
 
 	if (m_x > 250)
 	{
-		m_vX = -m_vX;
+		if (m_type != GameObject_BULLET || m_type != GameObject_ARROW)
+		{
+			m_vX = -m_vX;
+		}
 	}
-
 	if (m_x < -250)
 	{
-		m_vX = -m_vX;
+		if (m_type != GameObject_BULLET || m_type != GameObject_ARROW)
+		{
+			m_vX = -m_vX;
+		}
 	}
 
-	if (m_y > 250)
+	if (m_y > 400)
 	{
-		m_vY = -m_vY;
+		if (m_type != GameObject_BULLET || m_type != GameObject_ARROW)
+		{
+			m_vY = -m_vY;
+		}
 	}
 
-	if (m_y < -250)
+	if (m_y < -400)
 	{
-		m_vY = -m_vY;
+		if (m_type != GameObject_BULLET || m_type != GameObject_ARROW)
+		{
+			m_vY = -m_vY;
+		}
 	}
 
 	if (m_life > 0.f)
