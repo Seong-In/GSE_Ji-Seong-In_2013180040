@@ -15,7 +15,9 @@ ScenceMng::ScenceMng(int width, int height)
 	//m_texCharacter = m_renderer->CreatePngTexture("./Resorce/Teamblue.png");
 	m_texBuilding = m_renderer->CreatePngTexture("./Resorce/Teamred.png");
 	m_texBuilding_blue = m_renderer->CreatePngTexture("./Resorce/Teamblue.png");
-
+	m_background = m_renderer->CreatePngTexture("./Resorce/space.png");
+	m_character= m_renderer->CreatePngTexture("./Resorce/effect.png");
+	m_particle = m_renderer->CreatePngTexture("./Resorce/test.png");
 	m_windowWidth = width;
 	m_windowHeight = height;
 
@@ -31,6 +33,7 @@ int g_temp = 0;
 
 void ScenceMng::DrawAllGameObjects()
 {
+	m_renderer->DrawTexturedRect(0, 0, 0, 800, 1, 1, 1, 1,m_background,0.9);
 		
 	for (int i = 0; i < MAX_GameObject_COUNT; i++)
 	{
@@ -53,28 +56,42 @@ void ScenceMng::DrawAllGameObjects()
 				);
 				m_renderer->DrawSolidRectGauge(
 					m_actorGameObjects[i]->m_x,
-					m_actorGameObjects[i]->m_y,
-					0, 10, 2, 0, 0, 1, 1, 1, 0.5);
-				
+					m_actorGameObjects[i]->m_y - 60,
+					0, 80, 10, 0, 0, 1, 1, 1, 0.5);
+
 			}
-			
-			
-			/*else if(m_actorGameObjects[i]->m_type == GameObject_CHARACTER)
+
+
+			else if (m_actorGameObjects[i]->m_type == GameObject_CHARACTER)
 			{
-			m_renderer->DrawTexturedRect(
-			m_actorGameObjects[i]->m_x,
-			m_actorGameObjects[i]->m_y,
-			0,
-			m_actorGameObjects[i]->m_size,
-			m_actorGameObjects[i]->m_color[0],
-			m_actorGameObjects[i]->m_color[1],
-			m_actorGameObjects[i]->m_color[2],
-			m_actorGameObjects[i]->m_color[3],
-			m_texCharacter
-			);
-			}*/
-			else
+				m_renderer->DrawTexturedRectSeq(m_actorGameObjects[i]->m_x,
+					m_actorGameObjects[i]->m_y,
+					0,
+					m_actorGameObjects[i]->m_size,
+					m_actorGameObjects[i]->m_color[0],
+					m_actorGameObjects[i]->m_color[1],
+					m_actorGameObjects[i]->m_color[2],
+					m_actorGameObjects[i]->m_color[3], m_character, m_actorGameObjects[i]->m_ani_x,
+					m_actorGameObjects[i]->m_ani_y, 5, 6, m_actorGameObjects[i]->lev);
+			}
+			else if (m_actorGameObjects[i]->m_type == GameObject_BULLET)
 			{
+				m_renderer->DrawParticle(
+					m_actorGameObjects[i]->m_x,
+					m_actorGameObjects[i]->m_y,
+					0,
+					m_actorGameObjects[i]->m_size,
+					m_actorGameObjects[i]->m_color[0],
+					m_actorGameObjects[i]->m_color[1],
+					m_actorGameObjects[i]->m_color[2],
+					m_actorGameObjects[i]->m_color[3], 0, -1, m_particle, m_actorGameObjects[i]->m_velo);
+
+
+			}
+		
+			else 
+			{
+				
 				m_renderer->DrawSolidRect(
 					m_actorGameObjects[i]->m_x,
 					m_actorGameObjects[i]->m_y,

@@ -39,5 +39,8 @@ private:
 	GLuint m_texCharacter = 0;
 	GLuint m_texBuilding = 0;
 	GLuint m_texBuilding_blue = 0;
+	GLuint m_background = 0;
+	GLuint m_character = 0;
+	GLuint m_particle = 0;
 };
 

@@ -43,8 +43,10 @@ GameObject::GameObject(float x, float y, int type)
 		m_vX = 300.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		m_vY = 300.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		lev = 0.2f;
-		m_size = 20;
+		m_size = 30;
 		m_life = 10;
+		m_ani_x = 0;
+		m_ani_y = 0;
 
 		m_lifeTime = 100000.f;
 	}
@@ -52,15 +54,15 @@ GameObject::GameObject(float x, float y, int type)
 	{
 		m_color[0] = 1;
 		m_color[1] = 0;
-		m_color[2] = 0;
+		m_color[2] = 1;
 		m_color[3] = 1;
-
+		
 		m_vX = 600.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		m_vY = 600.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		lev = 0.3f;
-		m_size = 2;
+		m_size = 3;
 		m_life = 20;
-
+		m_velo = 1;
 		m_lifeTime = 100000.f;
 	}
 	else if (type == GameObject_ARROW)
@@ -73,7 +75,7 @@ GameObject::GameObject(float x, float y, int type)
 		m_vX = 100.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		m_vY = 100.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 
-		m_size = 2;
+		m_size = 5;
 		m_life = 10;
 
 		m_lifeTime = 100000.f;
@@ -96,9 +98,22 @@ void GameObject::Update(float elapsedTime)
 
 	m_lastBullet += elapsedTimeInSecond;
 	m_lastArrow += elapsedTimeInSecond;
+	m_velo += elapsedTimeInSecond;
 
 	m_x = m_x + m_vX * elapsedTimeInSecond;
 	m_y = m_y + m_vY * elapsedTimeInSecond;
+
+	m_ani_x++;
+	if (m_ani_x == 5)
+	{
+		m_ani_y++;
+		m_ani_x = 0;
+	}
+	if (m_ani_y == 5)
+	{
+		m_ani_x = 0;
+		m_ani_y = 0;
+	}
 
 	if (m_x > 250)
 	{
