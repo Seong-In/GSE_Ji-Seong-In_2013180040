@@ -124,6 +124,9 @@ int main(int argc, char **argv)
 	g_ScenceMng->AddActorGameObject(-150, -300, GameObject_BUILDING_RED);
 	g_ScenceMng->AddActorGameObject(0, -300, GameObject_BUILDING_RED);
 	g_ScenceMng->AddActorGameObject(150, -300, GameObject_BUILDING_RED);
+	g_ScenceMng->AddActorGameObject(-150, 300, GameObject_BUILDING_BLUE);
+	g_ScenceMng->AddActorGameObject(0, 300, GameObject_BUILDING_BLUE);
+	g_ScenceMng->AddActorGameObject(150, 300, GameObject_BUILDING_BLUE);
 
 	g_prevTime = timeGetTime();
 

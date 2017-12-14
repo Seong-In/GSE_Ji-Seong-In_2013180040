@@ -4,6 +4,7 @@
 
 #include "Renderer.h"
 #include "GameObject.h"
+#include "Sound.h"
 
 #define MAX_GameObject_COUNT 1000
 
@@ -42,5 +43,8 @@ private:
 	GLuint m_background = 0;
 	GLuint m_character = 0;
 	GLuint m_particle = 0;
+	Sound* m_sound;
+	int	soundBG;
+
 };
 

@@ -35,6 +35,8 @@ public:
 	float m_ani_x;
 	float m_ani_y;
 
+	float m_gauge;
+
 	int m_parentID;
 };
 

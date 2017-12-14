@@ -1,6 +1,7 @@
 #include "stdafx.h"
 #include "ScenceMng.h"
 #include <iostream>
+#include "Sound.h"
 using namespace std;
 ScenceMng::ScenceMng(int width, int height)
 {
@@ -21,6 +22,13 @@ ScenceMng::ScenceMng(int width, int height)
 	m_windowWidth = width;
 	m_windowHeight = height;
 
+	m_sound = new Sound();
+
+	soundBG = m_sound->CreateSound("./Dependencies/SoundSamples/likeafool.mp3");
+
+	m_sound->PlaySound(soundBG, true, 0.2f);
+
+	
 	for (int i = 0; i < MAX_GameObject_COUNT; i++)
 	{
 		m_actorGameObjects[i] = NULL;
@@ -34,7 +42,9 @@ int g_temp = 0;
 void ScenceMng::DrawAllGameObjects()
 {
 	m_renderer->DrawTexturedRect(0, 0, 0, 800, 1, 1, 1, 1,m_background,0.9);
-		
+	
+
+
 	for (int i = 0; i < MAX_GameObject_COUNT; i++)
 	{
 		if (m_actorGameObjects[i] != NULL)
@@ -57,7 +67,32 @@ void ScenceMng::DrawAllGameObjects()
 				m_renderer->DrawSolidRectGauge(
 					m_actorGameObjects[i]->m_x,
 					m_actorGameObjects[i]->m_y - 60,
-					0, 80, 10, 0, 0, 1, 1, 1, 0.5);
+					0, 80, 10, 1, 0, 0, 1, m_actorGameObjects[i]->m_gauge, 0.5);
+
+				m_renderer->DrawTextW(-40, -200, GLUT_BITMAP_HELVETICA_18, 1, 0, 0, "Red Team");
+
+			}
+			
+			else if (m_actorGameObjects[i]->m_type == GameObject_BUILDING_BLUE)
+			{
+				m_renderer->DrawTexturedRect(
+					m_actorGameObjects[i]->m_x,
+					m_actorGameObjects[i]->m_y,
+					0,
+					m_actorGameObjects[i]->m_size,
+					m_actorGameObjects[i]->m_color[0],
+					m_actorGameObjects[i]->m_color[1],
+					m_actorGameObjects[i]->m_color[2],
+					m_actorGameObjects[i]->m_color[3],
+					m_texBuilding_blue,
+					m_actorGameObjects[i]->lev
+				);
+				m_renderer->DrawSolidRectGauge(
+					m_actorGameObjects[i]->m_x,
+					m_actorGameObjects[i]->m_y - 60,
+					0, 80, 10, 0, 0, 1, 1, m_actorGameObjects[i]->m_gauge, 0.5);
+
+				m_renderer->DrawTextW(-40, 200, GLUT_BITMAP_HELVETICA_18, 0, 0, 1, "Blue Team");
 
 			}
 
@@ -105,7 +140,7 @@ void ScenceMng::DrawAllGameObjects()
 				);
 				
 			}
-			m_renderer->DrawTexturedRect(-150, 300, 0,
+			/*m_renderer->DrawTexturedRect(-150, 300, 0,
 				m_actorGameObjects[i]->m_size,
 				m_actorGameObjects[i]->m_color[0],
 				m_actorGameObjects[i]->m_color[1],
@@ -128,7 +163,7 @@ void ScenceMng::DrawAllGameObjects()
 				m_actorGameObjects[i]->m_color[2],
 				m_actorGameObjects[i]->m_color[3],
 				m_texBuilding_blue,0
-			);
+			);*/
 		}
 	}
 }
@@ -192,7 +227,7 @@ void ScenceMng::UpdateAllActorGameObjects(float elapsedTime)
 			else
 			{
 				m_actorGameObjects[i]->Update(elapsedTime);
-				if (m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED)
+				if (m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED|| GameObject_BUILDING_BLUE)
 				{
 					//fire bullet
 					if (m_actorGameObjects[i]->m_lastBullet > 3)
@@ -276,7 +311,7 @@ void ScenceMng::DoCollisionTest()
 					if (BoxBoxCollisionTest(minX, minY, maxX, maxY, minX1, minY1, maxX1, maxY1))
 					{
 						if (
-							(m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED)
+							(m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED || GameObject_BUILDING_BLUE)
 							&&
 							(m_actorGameObjects[j]->GetType() == GameObject_CHARACTER)
 							)
@@ -286,7 +321,7 @@ void ScenceMng::DoCollisionTest()
 							collisionCount++;
 						}
 						else if (
-							(m_actorGameObjects[j]->GetType() == GameObject_BUILDING_RED)
+							(m_actorGameObjects[j]->GetType() == GameObject_BUILDING_RED || GameObject_BUILDING_BLUE)
 							&&
 							(m_actorGameObjects[i]->GetType() == GameObject_CHARACTER)
 							)
@@ -336,7 +371,7 @@ void ScenceMng::DoCollisionTest()
 							m_actorGameObjects[i]->m_life = 0.f;
 						}
 						else if (
-							(m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED)
+							(m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED || GameObject_BUILDING_BLUE)
 							&&
 							(m_actorGameObjects[j]->GetType() == GameObject_ARROW)
 							)
@@ -345,7 +380,7 @@ void ScenceMng::DoCollisionTest()
 							m_actorGameObjects[j]->m_life = 0.f;
 						}
 						else if (
-							(m_actorGameObjects[j]->GetType() == GameObject_BUILDING_RED)
+							(m_actorGameObjects[j]->GetType() == GameObject_BUILDING_RED|| GameObject_BUILDING_BLUE)
 							&&
 							(m_actorGameObjects[i]->GetType() == GameObject_ARROW)
 							)
@@ -358,22 +393,24 @@ void ScenceMng::DoCollisionTest()
 			}
 			if (collisionCount > 0)
 			{
-				if (m_actorGameObjects[i] != NULL && m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED)
+				if (m_actorGameObjects[i] != NULL && m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED|| GameObject_BUILDING_BLUE)
 				{
-					m_actorGameObjects[i]->m_color[0] = 1;
-					m_actorGameObjects[i]->m_color[1] = 0;
-					m_actorGameObjects[i]->m_color[2] = 0;
-					m_actorGameObjects[i]->m_color[3] = 1;
+					m_actorGameObjects[i]->m_gauge -= 0.1f;
+					if (m_actorGameObjects[i]->m_gauge == 0)
+					{
+						delete m_actorGameObjects[i];
+						m_actorGameObjects[i] = NULL;
+					}
 				}
 			}
 			else
 			{
-				if (m_actorGameObjects[i] != NULL && m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED)
+				if (m_actorGameObjects[i] != NULL && m_actorGameObjects[i]->GetType() == GameObject_BUILDING_RED||GameObject_BUILDING_BLUE)
 				{
-					m_actorGameObjects[i]->m_color[0] = 1;
+				/*	m_actorGameObjects[i]->m_color[0] = 1;
 					m_actorGameObjects[i]->m_color[1] = 1;
 					m_actorGameObjects[i]->m_color[2] = 0;
-					m_actorGameObjects[i]->m_color[3] = 1;
+					m_actorGameObjects[i]->m_color[3] = 1;*/
 				}
 			}
 		}

@@ -28,6 +28,23 @@ GameObject::GameObject(float x, float y, int type)
 		lev = 0.1f;
 		m_size = 80;
 		m_life = 500;
+		m_gauge = 1;
+		m_lifeTime = 100000.f;
+
+
+	}
+	if (type == GameObject_BUILDING_BLUE)
+	{
+		m_color[0] = 1;
+		m_color[1] = 1;
+		m_color[2] = 1;
+		m_color[3] = 1;
+		m_gauge = 1;
+		m_vX = 0;
+		m_vY = 0;
+		lev = 0.1f;
+		m_size = 80;
+		m_life = 500;
 
 		m_lifeTime = 100000.f;
 
