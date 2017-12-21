@@ -30,12 +30,15 @@ public:
 	float m_lastBullet;
 	float m_lastArrow;
 
-	float m_velo;
+	float m_time;
 
 	float m_ani_x;
 	float m_ani_y;
 
 	float m_gauge;
+	float m_dirx;
+	float m_diry;
+	float m_weather;
 
 	int m_parentID;
 };

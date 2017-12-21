@@ -10,9 +10,11 @@
 
 #define GameObject_CHARACTER 0
 #define GameObject_BUILDING_RED 1
-#define GameObject_BULLET 2
-#define GameObject_ARROW 3
-#define GameObject_BUILDING_BLUE 4
+#define GameObject_BULLET_RED 2
+#define GameObject_BULLET_BLUE 3
+#define GameObject_ARROW 4
+#define GameObject_BUILDING_BLUE 5
+#define GameObject_WEATHER 6
 class ScenceMng
 {
 public:
@@ -40,11 +42,14 @@ private:
 	GLuint m_texCharacter = 0;
 	GLuint m_texBuilding = 0;
 	GLuint m_texBuilding_blue = 0;
+	GLuint m_star = 0;
 	GLuint m_background = 0;
 	GLuint m_character = 0;
 	GLuint m_particle = 0;
 	Sound* m_sound;
 	int	soundBG;
+	int destroy;
+	
 
 };
 

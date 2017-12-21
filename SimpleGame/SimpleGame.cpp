@@ -37,7 +37,7 @@ void RenderScene(void)
 
 	g_ScenceMng->UpdateAllActorGameObjects((float)elapsedTime);
 	g_ScenceMng->DrawAllGameObjects();
-
+	
 	glutSwapBuffers();
 }
 
@@ -63,7 +63,10 @@ void MouseInput(int button, int state, int x, int y)
 		{
 			//clicked
 			for (int i = 0; i < 1; i++)
-				g_ScenceMng->AddActorGameObject(x - 250, -y + 400, GameObject_CHARACTER);
+				if (y > 400)
+				{
+					g_ScenceMng->AddActorGameObject(x - 250, -y + 400, GameObject_CHARACTER);
+				}
 		}
 		g_LButtonDown = false;
 	}
@@ -127,6 +130,7 @@ int main(int argc, char **argv)
 	g_ScenceMng->AddActorGameObject(-150, 300, GameObject_BUILDING_BLUE);
 	g_ScenceMng->AddActorGameObject(0, 300, GameObject_BUILDING_BLUE);
 	g_ScenceMng->AddActorGameObject(150, 300, GameObject_BUILDING_BLUE);
+	g_ScenceMng->AddActorGameObject(0, 0, GameObject_WEATHER);
 
 	g_prevTime = timeGetTime();
 

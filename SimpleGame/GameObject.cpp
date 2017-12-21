@@ -67,7 +67,7 @@ GameObject::GameObject(float x, float y, int type)
 
 		m_lifeTime = 100000.f;
 	}
-	else if (type == GameObject_BULLET)
+	else if (type == GameObject_BULLET_RED)
 	{
 		m_color[0] = 1;
 		m_color[1] = 0;
@@ -77,9 +77,24 @@ GameObject::GameObject(float x, float y, int type)
 		m_vX = 600.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		m_vY = 600.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
 		lev = 0.3f;
-		m_size = 3;
+		m_size = 5;
 		m_life = 20;
-		m_velo = 1;
+		m_time = 0;
+		m_lifeTime = 100000.f;
+	}
+	else if (type == GameObject_BULLET_BLUE)
+	{
+		m_color[0] = 0;
+		m_color[1] = 0;
+		m_color[2] = 1;
+		m_color[3] = 1;
+
+		m_vX = 600.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+		m_vY = 600.f *(((float)std::rand() / (float)RAND_MAX) - 0.5f);
+		lev = 0.3f;
+		m_size = 5;
+		m_life = 20;
+		m_time = 0;
 		m_lifeTime = 100000.f;
 	}
 	else if (type == GameObject_ARROW)
@@ -96,6 +111,18 @@ GameObject::GameObject(float x, float y, int type)
 		m_life = 10;
 
 		m_lifeTime = 100000.f;
+	}
+	else if (type == GameObject_WEATHER)
+	{
+		m_color[0] = 1;
+		m_color[1] = 1;
+		m_color[2] = 1;
+		m_color[3] = 1;
+		lev = 0.3f;
+		m_dirx = -0.5;
+		m_diry = -0.5;
+		m_weather = 0;
+		m_size = 3;
 	}
 	else
 	{
@@ -115,12 +142,14 @@ void GameObject::Update(float elapsedTime)
 
 	m_lastBullet += elapsedTimeInSecond;
 	m_lastArrow += elapsedTimeInSecond;
-	m_velo += elapsedTimeInSecond;
-
+	m_time += elapsedTimeInSecond;
+	m_weather += elapsedTimeInSecond;
 	m_x = m_x + m_vX * elapsedTimeInSecond;
 	m_y = m_y + m_vY * elapsedTimeInSecond;
 
-	m_ani_x++;
+	
+	
+	m_ani_x++; //애니메이션
 	if (m_ani_x == 5)
 	{
 		m_ani_y++;
@@ -134,14 +163,14 @@ void GameObject::Update(float elapsedTime)
 
 	if (m_x > 250)
 	{
-		if (m_type != GameObject_BULLET || m_type != GameObject_ARROW)
+		if (m_type != GameObject_BULLET_RED || m_type != GameObject_ARROW)
 		{
 			m_vX = -m_vX;
 		}
 	}
 	if (m_x < -250)
 	{
-		if (m_type != GameObject_BULLET || m_type != GameObject_ARROW)
+		if (m_type != GameObject_BULLET_RED || m_type != GameObject_ARROW)
 		{
 			m_vX = -m_vX;
 		}
@@ -149,7 +178,7 @@ void GameObject::Update(float elapsedTime)
 
 	if (m_y > 400)
 	{
-		if (m_type != GameObject_BULLET || m_type != GameObject_ARROW)
+		if (m_type != GameObject_BULLET_RED || m_type != GameObject_ARROW)
 		{
 			m_vY = -m_vY;
 		}
@@ -157,7 +186,7 @@ void GameObject::Update(float elapsedTime)
 
 	if (m_y < -400)
 	{
-		if (m_type != GameObject_BULLET || m_type != GameObject_ARROW)
+		if (m_type != GameObject_BULLET_RED || m_type != GameObject_ARROW)
 		{
 			m_vY = -m_vY;
 		}
